@@ -1,0 +1,34 @@
+executor: LocalExecutor
+
+airflow:
+  image:
+    repository: apache/airflow
+    tag: "2.9.0"
+  config:
+    AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+
+web:
+  service:
+    type: ClusterIP
+    port: 8080
+
+postgresql:
+  enabled: true
+  auth:
+    username: airflow
+    password: airflow
+    database: airflow
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: airflow.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+dags:
+  persistence:
+    enabled: true
+    existingClaim: airflow-dags-pvc

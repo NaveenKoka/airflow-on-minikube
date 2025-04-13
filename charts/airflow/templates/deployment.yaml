@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-webserver
+  labels:
+    app: {{ .Release.Name }}-webserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-webserver
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-webserver
+    spec:
+      containers:
+        - name: webserver
+          image: "{{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: AIRFLOW__CORE__EXECUTOR
+              value: "{{ .Values.executor }}"
+            - name: AIRFLOW__CORE__LOAD_EXAMPLES
+              value: "{{ .Values.airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES }}"
+          volumeMounts:
+            - name: dags
+              mountPath: /opt/airflow/dags
+      volumes:
+        - name: dags
+          persistentVolumeClaim:
+            claimName: {{ .Values.dags.persistence.existingClaim }}

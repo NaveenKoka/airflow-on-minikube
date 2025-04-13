@@ -1,0 +1,6 @@
+apiVersion: v2
+name: airflow
+description: Deploy Apache Airflow on Minikube with Ingress
+type: application
+version: 0.1.0
+appVersion: "2.9.0"
