@@ -4,3 +4,7 @@ description: Deploy Apache Airflow on Minikube with Ingress
 type: application
 version: 0.1.0
 appVersion: "2.9.0"
+dependencies:
+  - name: postgresql
+    version: 12.1.7
+    repository: https://charts.bitnami.com/bitnami
