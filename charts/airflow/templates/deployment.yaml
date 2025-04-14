@@ -19,6 +19,8 @@ spec:
           image: "{{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}"
           ports:
             - containerPort: 8080
+          command: ["airflow"]
+          args: ["webserver"]
           env:
             - name: AIRFLOW__CORE__EXECUTOR
               value: "{{ .Values.executor }}"
