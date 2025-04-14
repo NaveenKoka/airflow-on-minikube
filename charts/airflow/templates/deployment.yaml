@@ -14,6 +14,21 @@ spec:
       labels:
         app: {{ .Release.Name }}-webserver
     spec:
+      initContainers:
+        - name: init-db
+          image: "{{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}"
+          command: ["airflow"]
+          args: ["db", "migrate"]
+          env:
+            - name: AIRFLOW__CORE__EXECUTOR
+              value: "{{ .Values.executor }}"
+            - name: AIRFLOW__CORE__LOAD_EXAMPLES
+              value: "{{ .Values.airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES }}"
+            - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-postgresql
+                  key: sqlalchemy-url
       containers:
         - name: webserver
           image: "{{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}"
