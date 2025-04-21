@@ -10,7 +10,7 @@ metadata:
     meta.helm.sh/release-name: airflow
     meta.helm.sh/release-namespace: airflow
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: airflow-webserver
   ports:
