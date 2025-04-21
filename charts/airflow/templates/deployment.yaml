@@ -41,6 +41,11 @@ spec:
               value: "{{ .Values.executor }}"
             - name: AIRFLOW__CORE__LOAD_EXAMPLES
               value: "{{ .Values.airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES }}"
+            - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-postgresql
+                  key: sqlalchemy-url
           volumeMounts:
             - name: dags
               mountPath: /opt/airflow/dags
