@@ -3,18 +3,12 @@ kind: Service
 metadata:
   name: airflow-webserver
   namespace: airflow
-  labels:
-    app: airflow-webserver
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    meta.helm.sh/release-name: airflow
-    meta.helm.sh/release-namespace: airflow
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: airflow-webserver
   ports:
     - name: web
       port: 80
       targetPort: 8080
-      protocol: TCP
+      nodePort: 30080
