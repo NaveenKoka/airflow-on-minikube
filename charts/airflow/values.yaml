@@ -32,3 +32,11 @@ dags:
   persistence:
     enabled: true
     existingClaim: airflow-dags-pvc
+    
+global:
+  postgresql:
+    auth:
+      postgresPassword: "airflow"
+      password: "airflow"
+      username: "airflow"
+      database: "airflow"
